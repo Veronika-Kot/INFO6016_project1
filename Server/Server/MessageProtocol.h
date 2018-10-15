@@ -11,9 +11,8 @@ struct Header {
 
 struct Body{
 	int length;
-	std::string room_name;
+	std::string roomName;
 	std::string message;
-	char messageChar;
 	std::string name;
 };
 
@@ -32,7 +31,6 @@ public:
 void MessageProtocol::readHeader(Buffer &myBuffer)
 {
 	this->messageHeader.packet_length = myBuffer.ReadInt32LE();
-	printf("1 length %i ", this->messageHeader.packet_length);
 	this->messageHeader.command_id = myBuffer.ReadInt32LE();
 	return;
 }
@@ -40,11 +38,26 @@ void MessageProtocol::readHeader(Buffer &myBuffer)
 void MessageProtocol::receiveMessage(Buffer &myBuffer)
 {
 	readHeader(myBuffer);
-	printf("length %i ", this->messageHeader.packet_length);
-	for (int i = 0; i != this->messageHeader.packet_length; i++)
+	int messageSize = this->messageHeader.packet_length - sizeof(int) * 2;
+	printf("length %i ", messageSize);
+	for (int i = 0; i <= messageSize-1; i++)
 	{
 		this->messageBody.message += myBuffer.ReadChar8LE();
 	}
+}
+
+void MessageProtocol::sendMessage(Buffer &myBuffer)
+{
+
+	this->messageHeader.packet_length = this->messageBody.message.length() + sizeof(int) * 2;
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.command_id);
+	const  char *temp = this->messageBody.message.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}
+
 }
 
 //Protocol Example :

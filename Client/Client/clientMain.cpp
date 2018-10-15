@@ -1,4 +1,5 @@
 //Client
+
 #define WIN32_LEAN_AND_MEAN
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
@@ -6,15 +7,22 @@
 #include <WinSock2.h>
 #include <Ws2tcpip.h>
 #include <iostream>
+#include "Buffer.h"
+#include "MessageProtocol.h"
 
 SOCKET Connection;
 
 void clientThread()
 {
-	char buffer[256];
+	char buffer[512];
+	Buffer*(myBuffer) = new Buffer(512);
+
+	MessageProtocol* messageProtocol = new MessageProtocol();
 	while (true)
 	{
-		recv(Connection, buffer, sizeof(buffer), NULL);
+		//Read 2 ints first, then create new buffer for the remaining message and read the rest. According to received command perform 
+		//an action. we can add some stop anchor, if reached it the end of package
+		recv(Connection, (char*)(myBuffer->mBuffer[0]), myBuffer->mBuffer.size(), NULL);
 		std::cout << buffer << std::endl;
 	}
 }

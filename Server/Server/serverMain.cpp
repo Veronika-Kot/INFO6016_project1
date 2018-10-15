@@ -5,12 +5,16 @@
 #include <WinSock2.h>
 #include <Ws2tcpip.h>
 #include <iostream>
+#include "Buffer.h"
+#include "MessageProtocol.h"
 
 SOCKET Connections[100];
 int connectionCounter = 0;
 
 void handleClients(int index)
 {
+	Buffer*(myBuffer) = new Buffer(512);
+	MessageProtocol* messageProtocol = new MessageProtocol();
 	char buffer[256];
 	while (true)
 	{

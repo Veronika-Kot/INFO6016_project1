@@ -10,16 +10,17 @@ public:
 
 	void WriteInt32LE(size_t index, int value);
 	void WriteInt32LE(int value);
-	void WriteChar(uint8_t letter);
+	void WriteChar8LE(uint8_t letter);
 	void WriteString(std::string, int length);
 
 	int ReadInt32LE(size_t index);
 	int ReadInt32LE(void);
 	uint8_t ReadChar8LE(void);
 	std::string ReadString(void);
+	std::vector<uint8_t> mBuffer;
 
 private:
-	std::vector<uint8_t> mBuffer;
+	//std::vector<uint8_t> mBuffer;
 	int mReadIndex;
 	int mWriteIndex;
 };

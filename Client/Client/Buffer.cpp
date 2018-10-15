@@ -16,7 +16,7 @@ void Buffer::WriteInt32LE(size_t index, int value)
 
 }
 
-void Buffer::WriteChar(uint8_t letter)
+void Buffer::WriteChar8LE(uint8_t letter)
 {
 	mBuffer[mWriteIndex] = letter;
 	mWriteIndex += 1;

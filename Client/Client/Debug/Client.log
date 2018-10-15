@@ -1,1 +1,9 @@
-﻿
+﻿  Buffer.cpp
+  clientMain.cpp
+c:\users\veronika\desktop\git\network\project1\info6016_project1\client\client\clientmain.cpp(23): error C2664: 'int recv(SOCKET,char *,int,int)': cannot convert argument 2 from '_Ty *' to 'char *'
+          with
+          [
+              _Ty=uint8_t
+          ]
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\client\client\clientmain.cpp(23): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+  Generating Code...
