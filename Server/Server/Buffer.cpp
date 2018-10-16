@@ -1,27 +1,29 @@
+//	Buffer.cpp
+//
+//	Purpouse: Serialization and Desirialization of geereic types.
+//  author: Veronika Kotckovich !!!-Partially conaines the code from the lecture
+
 #include "Buffer.h"
 
-Buffer::Buffer(size_t size)
-	: mWriteIndex(0)
-	, mReadIndex(0)
+//Constructor
+Buffer::Buffer(size_t size): mWriteIndex(0), mReadIndex(0)
 {
 	mBuffer.resize(size);
 }
 
-int Buffer::getBufferSize()
-{
-	return this->mWriteIndex;
-}
-
+//Resizing buffer with provided value
+//
+//@parap: size_t size
+//@return: void
 void Buffer::resizeBuffer(size_t size)
 {
 	mBuffer.resize(size);
 }
 
-std::vector<char>* Buffer::getBuffer(void)
-{
-	return &mBuffer;
-}
-
+//Serializes the provided int value and writes it to the buffer at certain index
+//
+//@parap: size_t index - where value should be written, and int value itself
+//@return: void
 void Buffer::WriteInt32LE(size_t index, int value)	
 {
 	mBuffer[index] = value;
@@ -31,6 +33,10 @@ void Buffer::WriteInt32LE(size_t index, int value)
 
 }
 
+//Serializes the provided char value and writes it to the buffer
+//
+//@parap: uint8_t letter, which is unsigned char
+//@return: void
 void Buffer::WriteChar8LE(uint8_t letter)
 {
 	mBuffer[mWriteIndex] = letter;
@@ -38,6 +44,10 @@ void Buffer::WriteChar8LE(uint8_t letter)
 
 }
 
+//Serializes the provided int value and writes at the end of the buffer
+//
+//@parap: int value to be serialyze
+//@return: void
 void Buffer::WriteInt32LE(int value)	
 {
 	mBuffer[mWriteIndex] = value;
@@ -49,6 +59,10 @@ void Buffer::WriteInt32LE(int value)
 
 }
 
+//Serializes the provided short value and writes at the end of the buffer
+//
+//@parap: short value to be serialyze
+//@return: void
 void Buffer::WriteShort16LE(uint16_t value)
 {
 	mBuffer[mWriteIndex] = value;
@@ -57,12 +71,17 @@ void Buffer::WriteShort16LE(uint16_t value)
 	mWriteIndex += 2;
 }
 
-//void WriteString(std::string message, const int length)
-//{
-//	const int SIZE = 23;
-//	char temp[message.size()] = data.c_str;
-//}
+//TODO:
+///void WriteString(std::string message, const int length)
+///{
+///	const int SIZE = 23;
+///	char temp[message.size()] = data.c_str;
+///}
 
+//Deserializes an int value at the provided buffer index
+//
+//@parap: size_t index, where in buffer the value should be found
+//@return: int value
 int Buffer::ReadInt32LE(size_t index)				
 {
 	uint32_t value = mBuffer[index];
@@ -73,6 +92,10 @@ int Buffer::ReadInt32LE(size_t index)
 	return value;
 }
 
+//Deserializes an int value at the end of the buffer
+//
+//@parap: void
+//@return: int value
 int Buffer::ReadInt32LE(void)						
 {
 	uint32_t value = mBuffer[mReadIndex];
@@ -85,6 +108,11 @@ int Buffer::ReadInt32LE(void)
 	return value;
 }
 
+//Deserializes an char value at the end of the buffer
+//
+//@parap: void
+//@return: char value
+
 char Buffer::ReadChar8LE(void)
 {
 	char value = mBuffer[mReadIndex];
@@ -92,6 +120,10 @@ char Buffer::ReadChar8LE(void)
 	return value;
 }
 
+//Deserializes an short value at the end of the buffer
+//
+//@parap: void
+//@return: short value
 short Buffer::ReadShort16LE(void)
 {
 	char value = mBuffer[mReadIndex];

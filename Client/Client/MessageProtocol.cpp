@@ -61,7 +61,6 @@ void MessageProtocol::receiveMessage(Buffer &myBuffer)
 {
 	//readHeader(myBuffer);
 	int length = myBuffer.ReadInt32LE();
-	printf("receiving package len %i ", this->messageHeader.packet_length);
 	for (int i = 0; i <= length - 1; i++)
 	{
 		this->messageBody.message += myBuffer.ReadChar8LE();
@@ -71,11 +70,10 @@ void MessageProtocol::receiveMessage(Buffer &myBuffer)
 //Send message -- command id = 001
 //? int string int string
 //[header][length][message]
-void MessageProtocol::sendMessage(Buffer &myBuffer)
+void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 {
-	this->messageHeader.command_id = 001;
+	this->messageHeader.command_id = id;
 	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
-	printf("Sending packet length %i ", this->messageHeader.packet_length);
 
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
@@ -94,9 +92,8 @@ void MessageProtocol::sendMessage(Buffer &myBuffer)
 //[header][length][room_name]
 void MessageProtocol::joinRoom(Buffer &myBuffer)
 {
-	this->messageHeader.command_id = 002;
+	//this->messageHeader.command_id = 002;
 	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
-	printf("Sending packet length %i ", this->messageHeader.packet_length);
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
 	myBuffer.WriteShort16LE(this->messageHeader.command_id);

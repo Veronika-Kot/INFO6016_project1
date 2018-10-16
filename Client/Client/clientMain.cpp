@@ -11,12 +11,13 @@
 #include "MessageProtocol.h"
 
 SOCKET Connection;
+int commandID;
 
 void clientThread()
 {
 	std::vector<char> packet(256);
 	int packLength;
-	while (( packLength = recv(Connection, &packet[0], packet.size(), NULL)) > 0)
+	while ((packLength = recv(Connection, &packet[0], packet.size(), NULL)) > 0)
 	{
 		MessageProtocol* messageProtocol = new MessageProtocol();
 		messageProtocol->createBuffer(256);
@@ -25,13 +26,13 @@ void clientThread()
 
 		messageProtocol->buffer->resizeBuffer(messageProtocol->messageHeader.packet_length);
 		messageProtocol->receiveMessage(*messageProtocol->buffer);
-		std::cout<< messageProtocol->messageBody.message<<std::endl;
+		std::cout << messageProtocol->messageBody.message << std::endl;
+		commandID = messageProtocol->messageHeader.command_id;
 
 		delete messageProtocol;
 		//packet.clear();
 	}
 }
-
 
 int main()
 {
@@ -64,22 +65,26 @@ int main()
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)clientThread, NULL, NULL, NULL); //Create a thread
 
 	MessageProtocol* messageSendProtocol = new MessageProtocol();
-	messageProtocol->messageHeader.command_id = 001;
 
 	int i = 0;
-	while (i<10)
+	while (i < 10)
 	{
 		std::string input = "";
 		std::getline(std::cin, input);
-		messageSendProtocol->messageBody.message = input.c_str();
 		messageSendProtocol->createBuffer(8);
-		messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
-		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+		messageProtocol->messageHeader.command_id = commandID;
+		//if (messageProtocol->messageHeader.command_id == 0 || messageProtocol->messageHeader.command_id == 1)
+		//{
+			messageSendProtocol->messageBody.message = input.c_str();
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer, commandID);
+			std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+			send(Connection, &packet[0], packet.size(), 0);
 
-		send(Connection, &packet[0], packet.size(), 0);
-
-		Sleep(10);
+			continue;
+		//}
+		
 		i++;
+		Sleep(10);
 	}
 
 	system("pause");

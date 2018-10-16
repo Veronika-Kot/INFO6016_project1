@@ -1,6 +1,9 @@
 #ifndef BUFFER_HG
 #define BUFFER_HG
-
+//	Buffer.h
+//
+//	Purpouse: Serialization and Desirialization of geereic types.
+//  author: Veronika Kotckovich !!!-Partially conaines the code from the lecture
 #include <vector>
 #include <string>
 
@@ -20,11 +23,10 @@ public:
 	char ReadChar8LE(void);
 	std::string ReadString(void);
 	
-	int getBufferSize();
+	size_t getBufferSize();
 	void resizeBuffer(size_t size);
 	std::vector<char>* getBuffer(void);
 	std::vector<char> mBuffer;
-
 private:
 	int mReadIndex;
 	int mWriteIndex;

@@ -7,17 +7,28 @@
 #include <iostream>
 #include "MessageProtocol.h"
 #include <vector>
+#include <string>
 
-SOCKET Connections[100];
-int connectionCounter = 0;
+struct client
+{
+	SOCKET Connection;
+	std::string name = "";
+	std::string room = "";
+};
 
+client Clients[100];
+int clientsCounter = 0;
+void sendMessageToClient(SOCKET theConnection, int id, std::string message);
+void sendMessageToAllInGroup(std::string groupName, int id, std::string message);
+void sendMessageOthersInGroup(int clientIndex, std::string groupName, int id, std::string message);
 void handleClients(int index)
 {
 	int packLength;
+	std::string name = "";
 	while (true)
 	{
 		std::vector<char> packet(256);
-		if ((packLength = recv(Connections[index], &packet[0], packet.size(), NULL)) > 0);
+		if ((packLength = recv(Clients[index].Connection, &packet[0], packet.size(), NULL)) > 0);
 		{
 			MessageProtocol* messageProtocol = new MessageProtocol();
 			messageProtocol->createBuffer(256);
@@ -25,23 +36,59 @@ void handleClients(int index)
 			messageProtocol->buffer->mBuffer = packet;
 			messageProtocol->readHeader(*messageProtocol->buffer);
 			messageProtocol->receiveMessage(*messageProtocol->buffer);
-			std::cout << "Client #" << index << ": " << messageProtocol->messageBody.message << std::endl;
-			/*	if (messageProtocol->messageHeader.command_id == 1)
-				{*/
 
-			for (int i = 0; i < connectionCounter; i++)
+			if(messageProtocol->messageHeader.command_id == 0) //create name
 			{
-				if (i == index)
+				Clients[index].name = messageProtocol->messageBody.message;
+				std::string greet = "Nice to meet you, " + messageProtocol->messageBody.message + "!";
+				sendMessageToClient(Clients[index].Connection, 0, greet);
+
+				std::string setGroup = "\nWhich group would you like to join? Send me a number!\n"
+				"1 - Movies, 2 - Games, 3 - Sport"; //can be stored seperatly in the feature
+				sendMessageToClient(Clients[index].Connection, 2, setGroup);
+
+				continue;
+			}
+
+			if (messageProtocol->messageHeader.command_id == 2) //join the room
+			{
+				std::cout << "I am here " << std::endl;
+				if (messageProtocol->messageBody.message == "1")
 				{
+					std::cout << "I am in movies " << std::endl;
+					Clients[index].room = "Movies";
+					std::string message = "*" + Clients[index].name + "* joined the room Movies.";
+					sendMessageToAllInGroup("Movies", 1, message);
 					continue;
 				}
-				else
+				else if (messageProtocol->messageBody.message == "2")
 				{
-					packet.resize(messageProtocol->messageHeader.packet_length);
-					send(Connections[i], &packet[0], packet.size(), 0);
+					Clients[index].room = "Games";
+					std::string message = "*" + Clients[index].name + "* joined the room Games.";
+					sendMessageToAllInGroup("Games", 1, message);
+					continue;
+				}
+				else if (messageProtocol->messageBody.message == "3")
+				{
+					Clients[index].room = "Sport";
+					std::string message = "*" + Clients[index].name + "* joined the room Sport.";
+					sendMessageToAllInGroup("Sport", 1, message);
+					continue;
+				}
+				else {
+					std::string setGroup = "\nWrong group number! Try again!\n"
+						"1 - Movies, 2 - Games, 3 - Sport"; //can be stored seperatly in the feature
+					sendMessageToClient(Clients[index].Connection, 2, setGroup);
+					continue;
 				}
 			}
-			//}
+
+			if (messageProtocol->messageHeader.command_id == 1)
+			{
+				std::cout << Clients[index].name << ": " << messageProtocol->messageBody.message << std::endl;
+				std::string message = Clients[index].name + ">> " + messageProtocol->messageBody.message;
+				sendMessageOthersInGroup(index, Clients[index].room, 1, message);
+			}
 
 			packLength = 0;
 			packet.clear();
@@ -89,22 +136,76 @@ int main()
 		{
 			std::cout << "Client Connected!" << std::endl;
 
-			MessageProtocol* messageSendProtocol = new MessageProtocol();
-			messageSendProtocol->messageHeader.command_id = 001;
-			messageSendProtocol->messageBody.message = "Welcome! this is a message from the server";
-			messageSendProtocol->createBuffer(4);
-			messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+			sendMessageToClient(newConnection, 0, "Welcome to the Fan chat!\nWhat is your name?");
 
-
-			std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
-
-			send(newConnection, &packet[0], packet.size(), 0);
-						
-			Connections[i] = newConnection;
-			connectionCounter++;
+			
+			Clients[i].Connection = newConnection;
+			//Connections[i] = newConnection;
+			clientsCounter++;
 			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)handleClients, (LPVOID)(i), NULL, NULL); //Create a thread
 		}
 	}
 	system("pause");
 	return 0;
+}
+
+void sendMessageToClient(SOCKET theConnection, int id, std::string message)
+{
+	MessageProtocol* messageSendProtocol = new MessageProtocol();
+	messageSendProtocol->messageHeader.command_id = id;
+	messageSendProtocol->messageBody.message = message;
+	messageSendProtocol->createBuffer(4);
+	messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+
+	std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+
+	send(theConnection, &packet[0], packet.size(), 0);
+
+	delete messageSendProtocol;
+}
+
+void sendMessageToAllInGroup(std::string groupName, int id, std::string message)
+{
+	MessageProtocol* messageSendProtocol = new MessageProtocol();
+	messageSendProtocol->messageHeader.command_id = id;
+
+	messageSendProtocol->messageBody.message = message;
+	messageSendProtocol->createBuffer(4);
+	messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+	std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+	for (int i = 0; i < clientsCounter; i++)
+	{
+		if (Clients[i].room == groupName)
+		{
+			send(Clients[i].Connection, &packet[0], packet.size(), 0);
+		}
+		else 
+		{
+			continue;
+		}
+	}
+	delete messageSendProtocol;
+}
+
+void sendMessageOthersInGroup(int clientIndex,  std::string groupName, int id, std::string message)
+{
+	MessageProtocol* messageSendProtocol = new MessageProtocol();
+	messageSendProtocol->messageHeader.command_id = id;
+
+	messageSendProtocol->messageBody.message = message;
+	messageSendProtocol->createBuffer(4);
+	messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+	std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+	for (int i = 0; i < clientsCounter; i++)
+	{
+		if (clientIndex == i) 
+		{
+			continue;
+		}
+		if (Clients[i].room == groupName)
+		{
+			send(Clients[i].Connection, &packet[0], packet.size(), 0);
+		}
+	}
+	delete messageSendProtocol;
 }

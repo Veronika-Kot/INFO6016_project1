@@ -22,7 +22,11 @@ struct Header {
 
 class MessageProtocol {
 public:
+	MessageProtocol();
+	~MessageProtocol();
+
 	void readHeader(Buffer &myBuffer);
+	void sendMessage(Buffer &myBuffer, int id);
 	void sendMessage(Buffer &myBuffer);
 	void receiveMessage(Buffer &myBuffer);
 	void joinRoom(Buffer &myBuffer);
