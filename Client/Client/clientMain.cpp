@@ -9,28 +9,44 @@
 #include <iostream>
 #include "Buffer.h"
 #include "MessageProtocol.h"
+#include <windows.h>
 
 SOCKET Connection;
 int commandID;
+bool run = true;
 
+//clientThread()
+//
+//Purpose: Handle a client thread; receiving messages from the server
+//@param: void
+//@return: void
 void clientThread()
 {
 	std::vector<char> packet(256);
 	int packLength;
-	while ((packLength = recv(Connection, &packet[0], packet.size(), NULL)) > 0)
+	while (run)
 	{
-		MessageProtocol* messageProtocol = new MessageProtocol();
-		messageProtocol->createBuffer(256);
-		messageProtocol->buffer->mBuffer = packet;
-		messageProtocol->readHeader(*messageProtocol->buffer);
+		if ((packLength = recv(Connection, &packet[0], packet.size(), NULL)) < 1) {
+			closesocket(Connection);
+			WSACleanup();
+			run = false;
+		}
 
-		messageProtocol->buffer->resizeBuffer(messageProtocol->messageHeader.packet_length);
-		messageProtocol->receiveMessage(*messageProtocol->buffer);
-		std::cout << messageProtocol->messageBody.message << std::endl;
-		commandID = messageProtocol->messageHeader.command_id;
+		else
+		{
+			MessageProtocol* messageProtocol = new MessageProtocol();
+			messageProtocol->createBuffer(256);
+			messageProtocol->buffer->mBuffer = packet;
+			messageProtocol->readHeader(*messageProtocol->buffer);
 
-		delete messageProtocol;
-		//packet.clear();
+			messageProtocol->buffer->resizeBuffer(messageProtocol->messageHeader.packet_length);
+			messageProtocol->receiveMessage(*messageProtocol->buffer);
+			std::cout << messageProtocol->messageBody.message << std::endl;
+			commandID = messageProtocol->messageHeader.command_id;
+
+			delete messageProtocol;
+			//packet.clear();
+		}
 	}
 }
 
@@ -49,7 +65,7 @@ int main()
 	SOCKADDR_IN addr;
 	int sizeofadr = sizeof(addr);
 	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
-	addr.sin_port = htons(1111);
+	addr.sin_port = htons(1234567);
 	addr.sin_family = AF_INET; //IPv4 
 
 	Connection = socket(AF_INET, SOCK_STREAM, NULL); //Creates connection socket
@@ -59,31 +75,49 @@ int main()
 	}
 	std::cout << "Connected!" << std::endl;
 
-	MessageProtocol* messageProtocol = new MessageProtocol();
-	messageProtocol->createBuffer(256);
+	/*MessageProtocol* messageProtocol = new MessageProtocol();
+	messageProtocol->createBuffer(256);*/
 
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)clientThread, NULL, NULL, NULL); //Create a thread
 
 	MessageProtocol* messageSendProtocol = new MessageProtocol();
 
-	int i = 0;
-	while (i < 10)
+	while (run)
 	{
 		std::string input = "";
 		std::getline(std::cin, input);
 		messageSendProtocol->createBuffer(8);
-		messageProtocol->messageHeader.command_id = commandID;
-		//if (messageProtocol->messageHeader.command_id == 0 || messageProtocol->messageHeader.command_id == 1)
-		//{
+		messageSendProtocol->messageHeader.command_id = commandID;
+		if (input=="leaveRoom")
+		{
+			if (messageSendProtocol->messageBody.roomName != "")
+			{
+				messageSendProtocol->leaveRoom(*messageSendProtocol->buffer);
+				std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+				send(Connection, &packet[0], packet.size(), 0);
+				continue;
+			}
+		}
+		if (commandID == 0)
+		{
+			messageSendProtocol->messageBody.name = input.c_str();
+			messageSendProtocol->setName(*messageSendProtocol->buffer);
+		}
+		else if (commandID == 1)
+		{
 			messageSendProtocol->messageBody.message = input.c_str();
-			messageSendProtocol->sendMessage(*messageSendProtocol->buffer, commandID);
-			std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
-			send(Connection, &packet[0], packet.size(), 0);
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+		}
 
-			continue;
-		//}
+		else if (commandID == 2)
+		{
+			messageSendProtocol->messageBody.roomName = input.c_str();
+			messageSendProtocol->joinRoom(*messageSendProtocol->buffer);
+		}
+
+		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+		send(Connection, &packet[0], packet.size(), 0);
 		
-		i++;
 		Sleep(10);
 	}
 

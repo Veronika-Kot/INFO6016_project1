@@ -25,53 +25,72 @@ void handleClients(int index)
 {
 	int packLength;
 	std::string name = "";
-	while (true)
+	bool run = true;
+	while (run)
 	{
 		std::vector<char> packet(256);
-		if ((packLength = recv(Clients[index].Connection, &packet[0], packet.size(), NULL)) > 0);
+		if ((packLength = recv(Clients[index].Connection, &packet[0], packet.size(), NULL)) < 1) {
+			closesocket(Clients[index].Connection);
+			WSACleanup();
+			run = false;
+		}
+		else
 		{
 			MessageProtocol* messageProtocol = new MessageProtocol();
 			messageProtocol->createBuffer(256);
 
 			messageProtocol->buffer->mBuffer = packet;
 			messageProtocol->readHeader(*messageProtocol->buffer);
-			messageProtocol->receiveMessage(*messageProtocol->buffer);
 
 			if(messageProtocol->messageHeader.command_id == 0) //create name
 			{
+				messageProtocol->receiveName(*messageProtocol->buffer);
 				Clients[index].name = messageProtocol->messageBody.message;
 				std::string greet = "Nice to meet you, " + messageProtocol->messageBody.message + "!";
 				sendMessageToClient(Clients[index].Connection, 0, greet);
 
 				std::string setGroup = "\nWhich group would you like to join? Send me a number!\n"
-				"1 - Movies, 2 - Games, 3 - Sport"; //can be stored seperatly in the feature
+				"1 - Movies, 2 - Games, 3 - Sport (send 'leaveRoom' to exit)"; //rooms will stored seperatly in the feature
 				sendMessageToClient(Clients[index].Connection, 2, setGroup);
 
 				continue;
 			}
 
+			if (messageProtocol->messageHeader.command_id == 3) //leave the room
+			{
+				std::string message = "*" + Clients[index].name + "* left the room";
+				sendMessageToAllInGroup(Clients[index].room, 1, message);
+				Clients[index].room = "";
+
+				std::string setGroup = "\nWhich group would you like to join? Send me a number!\n"
+					"1 - Movies, 2 - Games, 3 - Sport ( send'leaveRoom' to exit)"; //rooms will be stored seperatly in the feature
+				sendMessageToClient(Clients[index].Connection, 2, setGroup);
+
+				continue;
+				
+			}
+
 			if (messageProtocol->messageHeader.command_id == 2) //join the room
 			{
-				std::cout << "I am here " << std::endl;
-				if (messageProtocol->messageBody.message == "1")
+				messageProtocol->joinRoom(*messageProtocol->buffer);
+				if (messageProtocol->messageBody.roomName == "1")
 				{
-					std::cout << "I am in movies " << std::endl;
 					Clients[index].room = "Movies";
-					std::string message = "*" + Clients[index].name + "* joined the room Movies.";
+					std::string message = "*" + Clients[index].name + "* has joined the room Movies.";
 					sendMessageToAllInGroup("Movies", 1, message);
 					continue;
 				}
-				else if (messageProtocol->messageBody.message == "2")
+				else if (messageProtocol->messageBody.roomName == "2")
 				{
 					Clients[index].room = "Games";
-					std::string message = "*" + Clients[index].name + "* joined the room Games.";
+					std::string message = "*" + Clients[index].name + "* has joined the room Games.";
 					sendMessageToAllInGroup("Games", 1, message);
 					continue;
 				}
-				else if (messageProtocol->messageBody.message == "3")
+				else if (messageProtocol->messageBody.roomName == "3")
 				{
 					Clients[index].room = "Sport";
-					std::string message = "*" + Clients[index].name + "* joined the room Sport.";
+					std::string message = "*" + Clients[index].name + "* has joined the room Sport.";
 					sendMessageToAllInGroup("Sport", 1, message);
 					continue;
 				}
@@ -85,6 +104,7 @@ void handleClients(int index)
 
 			if (messageProtocol->messageHeader.command_id == 1)
 			{
+				messageProtocol->receiveMessage(*messageProtocol->buffer);
 				std::cout << Clients[index].name << ": " << messageProtocol->messageBody.message << std::endl;
 				std::string message = Clients[index].name + ">> " + messageProtocol->messageBody.message;
 				sendMessageOthersInGroup(index, Clients[index].room, 1, message);
@@ -114,7 +134,7 @@ int main()
 
 	int addrlen = sizeof(addr);
 	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
-	addr.sin_port = htons(1111);
+	addr.sin_port = htons(1234567);
 	addr.sin_family = AF_INET; //IPv4 
 
 
@@ -149,13 +169,20 @@ int main()
 	return 0;
 }
 
+//sendMessageOthersInGroup
+//
+//Purpouse: Sends server message to the curent conection
+//
+//@param: connection Id, ommand id, the message to be sent
+//@return: void
+
 void sendMessageToClient(SOCKET theConnection, int id, std::string message)
 {
 	MessageProtocol* messageSendProtocol = new MessageProtocol();
 	messageSendProtocol->messageHeader.command_id = id;
 	messageSendProtocol->messageBody.message = message;
 	messageSendProtocol->createBuffer(4);
-	messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+	messageSendProtocol->sendMessage(*messageSendProtocol->buffer, id);
 
 	std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
 
@@ -163,6 +190,13 @@ void sendMessageToClient(SOCKET theConnection, int id, std::string message)
 
 	delete messageSendProtocol;
 }
+
+//sendMessageOthersInGroup
+//
+//Purpouse: Send message to all clients in the chat room including the curent conection
+//
+//@param:  room name, command id, the message to be sent
+//@return: void
 
 void sendMessageToAllInGroup(std::string groupName, int id, std::string message)
 {
@@ -187,7 +221,14 @@ void sendMessageToAllInGroup(std::string groupName, int id, std::string message)
 	delete messageSendProtocol;
 }
 
-void sendMessageOthersInGroup(int clientIndex,  std::string groupName, int id, std::string message)
+//sendMessageOthersInGroup
+//
+//Purpouse: Send message to all other clients in the chat room exept the curent conection
+//
+//@param: connection Id, room name, command id, the message to be sent
+//@return: void
+
+void sendMessageOthersInGroup(int clientIndex,  std::string roomName, int id, std::string message)
 {
 	MessageProtocol* messageSendProtocol = new MessageProtocol();
 	messageSendProtocol->messageHeader.command_id = id;
@@ -202,7 +243,7 @@ void sendMessageOthersInGroup(int clientIndex,  std::string groupName, int id, s
 		{
 			continue;
 		}
-		if (Clients[i].room == groupName)
+		if (Clients[i].room == roomName)
 		{
 			send(Clients[i].Connection, &packet[0], packet.size(), 0);
 		}

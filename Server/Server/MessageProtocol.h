@@ -12,7 +12,7 @@
 struct Body{
 	std::string roomName;
 	std::string message;
-	//std::string name;
+	std::string name;
 };
 
 struct Header {
@@ -27,7 +27,9 @@ public:
 
 	void readHeader(Buffer &myBuffer);
 	void sendMessage(Buffer &myBuffer);
+	void sendMessage(Buffer &myBuffer, int id);
 	void receiveMessage(Buffer &myBuffer);
+	void receiveName(Buffer &myBuffer);
 	void joinRoom(Buffer &myBuffer);
 	void leaveRoom(Buffer &myBuffer);
 	void createBuffer(size_t index);

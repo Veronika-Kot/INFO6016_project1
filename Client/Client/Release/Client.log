@@ -1,11 +1,1 @@
-﻿  Buffer.cpp
-c:\users\veronika\desktop\git\network\project1\info6016_project1\client\client\buffer.cpp(54): warning C4244: '=': conversion from 'uint16_t' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=char
-          ]
-  clientMain.cpp
-  Generating code
-  All 195 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  Client.vcxproj -> C:\Users\Veronika\Desktop\git\NETWORK\PROJECT1\INFO6016_project1\Client\Release\Client.exe
+﻿

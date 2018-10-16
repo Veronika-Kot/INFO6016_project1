@@ -4,6 +4,7 @@
 //  author: Veronika Kotckovich
 
 #include "MessageProtocol.h"
+#include <iostream>
 
 //Constructor
 //
@@ -21,7 +22,7 @@ MessageProtocol::~MessageProtocol()
 	delete this->buffer;
 }
 
-//createBuffer()
+//createBuffer(size)
 //
 //Puspouse: Creates a budder of provided size
 //
@@ -33,7 +34,7 @@ void MessageProtocol::createBuffer(size_t size)
 }
 
 
-//readHeader()
+//readHeader(&myBuffer)
 //
 //Purpouse: Protocol rule for the messages' header 
 //
@@ -67,9 +68,40 @@ void MessageProtocol::receiveMessage(Buffer &myBuffer)
 	}
 }
 
-//Send message -- command id = 001
+//Set name -- command id = 00
+//
+//Purpose: Sending client's name to the server
+//
+//? int string int string int string
+//[header][length][name]
+//
+//@param: void
+//@return: void
+void MessageProtocol::setName(Buffer &myBuffer) 
+{
+	this->messageHeader.command_id = 00;
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.name.length();
+
+	myBuffer.resizeBuffer(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.name.length());
+	const  char *temp = this->messageBody.name.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}
+}
+
+//Send message -- command id = 01
+//
+//Purpose: Sending message to the server with custom command id
+//
 //? int string int string
 //[header][length][message]
+//
+//@param: void
+//@return: void
 void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 {
 	this->messageHeader.command_id = id;
@@ -87,13 +119,40 @@ void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 
 }
 
-//Join room -- command id = 002
+
+//Send message -- command id = 01
+//
+//Purpose: Sending message to the server
+//
+//? int string int string
+//[header][length][message]
+//
+//@param: void
+//@return: void
+void MessageProtocol::sendMessage(Buffer &myBuffer)
+{
+	this->messageHeader.command_id = 01;
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
+
+	myBuffer.resizeBuffer(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.message.length());
+	const  char *temp = this->messageBody.message.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}
+
+}
+
+//Join room -- command id = 02
 //? int string
 //[header][length][room_name]
 void MessageProtocol::joinRoom(Buffer &myBuffer)
 {
-	//this->messageHeader.command_id = 002;
-	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
+	this->messageHeader.command_id = 02;
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.roomName.length();
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
 	myBuffer.WriteShort16LE(this->messageHeader.command_id);
@@ -104,4 +163,23 @@ void MessageProtocol::joinRoom(Buffer &myBuffer)
 		myBuffer.WriteChar8LE(temp[i]);
 	}
 
+}
+
+//Join room -- command id = 03
+//? int string
+//[header][length][room_name]
+void MessageProtocol::leaveRoom(Buffer &myBuffer)
+{
+	this->messageHeader.command_id = 03;
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.roomName.length();
+	myBuffer.resizeBuffer(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.roomName.length());
+	const  char *temp = this->messageBody.roomName.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}
+	this->messageBody.roomName = "";
 }

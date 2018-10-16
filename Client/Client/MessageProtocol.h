@@ -12,7 +12,7 @@
 struct Body{
 	std::string roomName;
 	std::string message;
-	//std::string name;
+	std::string name;
 };
 
 struct Header {
@@ -28,6 +28,7 @@ public:
 	void readHeader(Buffer &myBuffer);
 	void sendMessage(Buffer &myBuffer, int id);
 	void sendMessage(Buffer &myBuffer);
+	void setName(Buffer &myBuffer);
 	void receiveMessage(Buffer &myBuffer);
 	void joinRoom(Buffer &myBuffer);
 	void leaveRoom(Buffer &myBuffer);
@@ -37,20 +38,3 @@ public:
 	Buffer* buffer;
 };
 #endif // !MessageProtocol_HG_
-
-//Protocol Example :
-//Header
-//int int
-//[packet_length][message_id]
-//Send message
-//? int string int string
-//[header][length]][room_name][length][message]
-//Receive message
-//? int string int string int string
-//[header][length][name][length][message][length][room_name]
-//Join Room :
-//? int string
-//[header][length][room_name]
-//Leave Room :
-//? int string
-//[header][length][room_name]
