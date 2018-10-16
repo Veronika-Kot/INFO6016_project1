@@ -7,6 +7,21 @@ Buffer::Buffer(size_t size)
 	mBuffer.resize(size);
 }
 
+int Buffer::getBufferSize()
+{
+	return this->mWriteIndex;
+}
+
+void Buffer::resizeBuffer(size_t size)
+{
+	mBuffer.resize(size);
+}
+
+std::vector<char>* Buffer::getBuffer(void)
+{
+	return &mBuffer;
+}
+
 void Buffer::WriteInt32LE(size_t index, int value)	
 {
 	mBuffer[index] = value;
@@ -32,6 +47,14 @@ void Buffer::WriteInt32LE(int value)
 
 	mWriteIndex += 4;
 
+}
+
+void Buffer::WriteShort16LE(uint16_t value)
+{
+	mBuffer[mWriteIndex] = value;
+	mBuffer[mWriteIndex + 1] = value >> 8;
+
+	mWriteIndex += 2;
 }
 
 //void WriteString(std::string message, const int length)
@@ -62,9 +85,18 @@ int Buffer::ReadInt32LE(void)
 	return value;
 }
 
-uint8_t Buffer::ReadChar8LE(void)
+char Buffer::ReadChar8LE(void)
 {
-	uint8_t value = mBuffer[mReadIndex];
+	char value = mBuffer[mReadIndex];
 	mReadIndex += 1;
+	return value;
+}
+
+short Buffer::ReadShort16LE(void)
+{
+	char value = mBuffer[mReadIndex];
+	value |= mBuffer[mReadIndex + 1] << 8;
+
+	mReadIndex += 2;
 	return value;
 }

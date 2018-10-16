@@ -14,16 +14,18 @@ SOCKET Connection;
 
 void clientThread()
 {
-	char buffer[512];
-	Buffer*(myBuffer) = new Buffer(512);
-
 	MessageProtocol* messageProtocol = new MessageProtocol();
+	messageProtocol->createBuffer(256);
+	std::vector<char> packet(256);
 	while (true)
 	{
-		//Read 2 ints first, then create new buffer for the remaining message and read the rest. According to received command perform 
-		//an action. we can add some stop anchor, if reached it the end of package
-		recv(Connection, (char*)(myBuffer->mBuffer[0]), myBuffer->mBuffer.size(), NULL);
-		std::cout << buffer << std::endl;
+		recv(Connection, &packet[0], packet.size(), NULL);
+		messageProtocol->buffer->mBuffer = packet;
+		messageProtocol->readHeader(*messageProtocol->buffer);
+
+		messageProtocol->buffer->resizeBuffer(messageProtocol->messageHeader.packet_length);
+		messageProtocol->receiveMessage(*messageProtocol->buffer);
+		std::cout<< messageProtocol->messageBody.message<<std::endl;
 	}
 }
 
@@ -52,13 +54,26 @@ int main()
 		MessageBox(NULL, "Fainled to connect", "Error", MB_OK | MB_ICONERROR);
 	}
 	std::cout << "Connected!" << std::endl;
-	char buffer[256];
+
+	MessageProtocol* messageProtocol = new MessageProtocol();
+	messageProtocol->createBuffer(256);
+
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)clientThread, NULL, NULL, NULL); //Create a thread
+
+	MessageProtocol* messageSendProtocol = new MessageProtocol();
+	messageProtocol->messageHeader.command_id = 001;
 
 	while (true)
 	{
-		std::cin.getline(buffer, sizeof(buffer));
-		send(Connection, buffer, sizeof(buffer), NULL);
+		std::string input = "";
+		std::getline(std::cin, input);
+		messageSendProtocol->messageBody.message = input.c_str();
+		messageSendProtocol->createBuffer(8);
+		messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+
+		send(Connection, &packet[0], packet.size(), 0);
+
 		Sleep(10);
 	}
 

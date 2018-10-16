@@ -5,30 +5,38 @@
 #include <WinSock2.h>
 #include <Ws2tcpip.h>
 #include <iostream>
-#include "Buffer.h"
 #include "MessageProtocol.h"
+#include <vector>
 
 SOCKET Connections[100];
 int connectionCounter = 0;
 
 void handleClients(int index)
 {
-	Buffer*(myBuffer) = new Buffer(512);
 	MessageProtocol* messageProtocol = new MessageProtocol();
-	char buffer[256];
+	messageProtocol->createBuffer(256);
+	std::vector<char> packet(256);
 	while (true)
 	{
-		recv(Connections[index], buffer, sizeof(buffer), NULL);
-		for (int i = 0; i < connectionCounter; i++)
-		{
-			if (i == index)
+		recv(Connections[index], &packet[0], packet.size(), NULL);
+		messageProtocol->buffer->mBuffer = packet;
+		messageProtocol->readHeader(*messageProtocol->buffer);
+	/*	if (messageProtocol->messageHeader.command_id == 1)
+		{*/
+
+			for (int i = 0; i < connectionCounter; i++)
 			{
-				continue;
+				if (i == index)
+				{
+					continue;
+				}
+				else 
+				{
+					packet.resize(messageProtocol->messageHeader.packet_length);
+					send(Connections[i], &packet[0], packet.size(), 0);
+				}
 			}
-			else {
-				send(Connections[i], buffer, sizeof(buffer), NULL);
-			}
-		}
+		//}
 	}
 }
 
@@ -46,10 +54,6 @@ int main()
 	//Socket addres info
 
 	SOCKADDR_IN addr;
-	//int addrlen = sizeof(addr);
-	//addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	//addr.sin_port = htons(1111);
-	//addr.sin_family = AF_INET; //IPv4 Socket
 
 	int addrlen = sizeof(addr);
 	inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
@@ -74,8 +78,18 @@ int main()
 		else
 		{
 			std::cout << "Client Connected!" << std::endl;
-			char MOTD[256] = "Welcome! this is a message from the server"; //Creates a buffer
-			send(newConnection, MOTD, sizeof(MOTD), NULL); // Send buffer
+
+			MessageProtocol* messageSendProtocol = new MessageProtocol();
+			messageSendProtocol->messageHeader.command_id = 001;
+			messageSendProtocol->messageBody.message = "Welcome! this is a message from the server";
+			messageSendProtocol->createBuffer(4);
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
+
+
+			std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+
+			send(newConnection, &packet[0], packet.size(), 0);
+						
 			Connections[i] = newConnection;
 			connectionCounter++;
 			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)handleClients, (LPVOID)(i), NULL, NULL); //Create a thread
