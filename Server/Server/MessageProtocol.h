@@ -60,9 +60,8 @@ void MessageProtocol::readHeader(Buffer &myBuffer)
 //[header][length][message]
 void MessageProtocol::receiveMessage(Buffer &myBuffer)
 {
-	readHeader(myBuffer);
 	int length = myBuffer.ReadInt32LE();
-	printf("receiving package len %i ", this->messageHeader.packet_length);
+	printf("\nreceiving package len %i ", this->messageHeader.packet_length);
 	for (int i = 0; i <= length -1; i++)
 	{
 		this->messageBody.message += myBuffer.ReadChar8LE();
@@ -75,7 +74,7 @@ void MessageProtocol::receiveMessage(Buffer &myBuffer)
 void MessageProtocol::sendMessage(Buffer &myBuffer)
 {
 	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
-	printf("Sending packet length %i ", this->messageHeader.packet_length);
+	printf("\nSending packet length %i ", this->messageHeader.packet_length);
 	
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);

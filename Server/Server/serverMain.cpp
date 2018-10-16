@@ -13,16 +13,21 @@ int connectionCounter = 0;
 
 void handleClients(int index)
 {
-	MessageProtocol* messageProtocol = new MessageProtocol();
-	messageProtocol->createBuffer(256);
-	std::vector<char> packet(256);
+	int packLength;
 	while (true)
 	{
-		recv(Connections[index], &packet[0], packet.size(), NULL);
-		messageProtocol->buffer->mBuffer = packet;
-		messageProtocol->readHeader(*messageProtocol->buffer);
-	/*	if (messageProtocol->messageHeader.command_id == 1)
-		{*/
+		std::vector<char> packet(256);
+		if ((packLength = recv(Connections[index], &packet[0], packet.size(), NULL)) > 0);
+		{
+			MessageProtocol* messageProtocol = new MessageProtocol();
+			messageProtocol->createBuffer(256);
+
+			messageProtocol->buffer->mBuffer = packet;
+			messageProtocol->readHeader(*messageProtocol->buffer);
+			messageProtocol->receiveMessage(*messageProtocol->buffer);
+			std::cout << "Client #" << index << ": " << messageProtocol->messageBody.message << std::endl;
+			/*	if (messageProtocol->messageHeader.command_id == 1)
+				{*/
 
 			for (int i = 0; i < connectionCounter; i++)
 			{
@@ -30,13 +35,18 @@ void handleClients(int index)
 				{
 					continue;
 				}
-				else 
+				else
 				{
 					packet.resize(messageProtocol->messageHeader.packet_length);
 					send(Connections[i], &packet[0], packet.size(), 0);
 				}
 			}
-		//}
+			//}
+
+			packLength = 0;
+			packet.clear();
+			delete messageProtocol;
+		}
 	}
 }
 

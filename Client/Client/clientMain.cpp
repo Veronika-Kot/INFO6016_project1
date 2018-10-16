@@ -14,18 +14,21 @@ SOCKET Connection;
 
 void clientThread()
 {
-	MessageProtocol* messageProtocol = new MessageProtocol();
-	messageProtocol->createBuffer(256);
 	std::vector<char> packet(256);
-	while (true)
+	int packLength;
+	while (( packLength = recv(Connection, &packet[0], packet.size(), NULL)) > 0)
 	{
-		recv(Connection, &packet[0], packet.size(), NULL);
+		MessageProtocol* messageProtocol = new MessageProtocol();
+		messageProtocol->createBuffer(256);
 		messageProtocol->buffer->mBuffer = packet;
 		messageProtocol->readHeader(*messageProtocol->buffer);
 
 		messageProtocol->buffer->resizeBuffer(messageProtocol->messageHeader.packet_length);
 		messageProtocol->receiveMessage(*messageProtocol->buffer);
 		std::cout<< messageProtocol->messageBody.message<<std::endl;
+
+		delete messageProtocol;
+		//packet.clear();
 	}
 }
 
@@ -63,18 +66,21 @@ int main()
 	MessageProtocol* messageSendProtocol = new MessageProtocol();
 	messageProtocol->messageHeader.command_id = 001;
 
-	while (true)
+	int i = 0;
+	while (i<10)
 	{
 		std::string input = "";
 		std::getline(std::cin, input);
 		messageSendProtocol->messageBody.message = input.c_str();
 		messageSendProtocol->createBuffer(8);
+		messageSendProtocol->messageHeader.command_id = 1;
 		messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
 		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
 
 		send(Connection, &packet[0], packet.size(), 0);
 
 		Sleep(10);
+		i++;
 	}
 
 	system("pause");
