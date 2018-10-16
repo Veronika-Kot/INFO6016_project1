@@ -1,6 +1,9 @@
 #ifndef BUFFER_HG
 #define BUFFER_HG
-
+//	Buffer.h
+//
+//	Purpouse: Serialization and Desirialization of geereic types.
+//  author: Veronika Kotckovich !!!-Partially conaines the code from the lecture
 #include <vector>
 #include <string>
 

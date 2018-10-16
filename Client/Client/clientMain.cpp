@@ -73,7 +73,6 @@ int main()
 		std::getline(std::cin, input);
 		messageSendProtocol->messageBody.message = input.c_str();
 		messageSendProtocol->createBuffer(8);
-		messageSendProtocol->messageHeader.command_id = 1;
 		messageSendProtocol->sendMessage(*messageSendProtocol->buffer);
 		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
 
