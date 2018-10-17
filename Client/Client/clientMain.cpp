@@ -22,7 +22,7 @@ bool run = true;
 //@return: void
 void clientThread()
 {
-	std::vector<char> packet(256);
+	std::vector<char> packet(512);
 	int packLength;
 	while (run)
 	{
@@ -35,7 +35,7 @@ void clientThread()
 		else
 		{
 			MessageProtocol* messageProtocol = new MessageProtocol();
-			messageProtocol->createBuffer(256);
+			messageProtocol->createBuffer(512);
 			messageProtocol->buffer->mBuffer = packet;
 			messageProtocol->readHeader(*messageProtocol->buffer);
 

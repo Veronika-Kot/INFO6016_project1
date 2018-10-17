@@ -125,18 +125,25 @@ void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 //Purpose: Sending message to the server
 //
 //? int string int string
-//[header][length][message]
+//[header][length][name][length][message]
 //
 //@param: void
 //@return: void
 void MessageProtocol::sendMessage(Buffer &myBuffer)
 {
 	this->messageHeader.command_id = 01;
-	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.name.length() +
+		sizeof(int) + this->messageBody.message.length();
 
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
 	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.name.length());
+	const  char *tempName = this->messageBody.name.c_str();
+	for (int i = 0; tempName[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(tempName[i]);
+	}
 	myBuffer.WriteInt32LE(this->messageBody.message.length());
 	const  char *temp = this->messageBody.message.c_str();
 	for (int i = 0; temp[i] != '\0'; i++)

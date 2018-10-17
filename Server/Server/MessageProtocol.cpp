@@ -23,7 +23,7 @@ MessageProtocol::~MessageProtocol()
 
 //createBuffer()
 //
-//Puspouse: Creates a budder of provided size
+//Puspouse: Creates a buffer
 //
 //@param: size_t size
 //@return: void
@@ -35,7 +35,7 @@ void MessageProtocol::createBuffer(size_t size)
 
 //readHeader()
 //
-//Purpouse: Protocol rule for the messages' header 
+//Purpouse: Reads the message's header 
 //
 //int int
 //[packet_length][message_id]
@@ -59,7 +59,13 @@ void MessageProtocol::readHeader(Buffer &myBuffer)
 
 void MessageProtocol::receiveMessage(Buffer &myBuffer)
 {
-	//readHeader(myBuffer);
+	int mameLength = myBuffer.ReadInt32LE();
+	//printf("receiving package len %i ", this->messageHeader.packet_length);
+	for (int i = 0; i <= mameLength - 1; i++)
+	{
+		this->messageBody.name += myBuffer.ReadChar8LE();
+	}
+
 	int length = myBuffer.ReadInt32LE();
 	//printf("receiving package len %i ", this->messageHeader.packet_length);
 	for (int i = 0; i <= length - 1; i++)
@@ -68,11 +74,11 @@ void MessageProtocol::receiveMessage(Buffer &myBuffer)
 	}
 }
 
-//receiveMessage()
+//receiveName()
 //
-//Purpouse: Receiving a client's name
+//Purpouse: Receives a client's name
 //
-//? int string int string int string
+//? int string 
 //[header][length][name]
 //
 //@param: Buffer &myBuffer -  the reference to current buffer
@@ -131,7 +137,7 @@ void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 
 //Join room -- command id = 02
 //
-//Purpouse: Receiving a roomname
+//Purpouse: Gets a roomname client wants to join
 //
 //? int string
 //[header][length][room_name]
@@ -142,16 +148,5 @@ void MessageProtocol::joinRoom(Buffer &myBuffer)
 	{
 		this->messageBody.roomName += myBuffer.ReadChar8LE();
 	}
-
-}
-
-//Join room -- command id = 02
-//
-//Purpouse: Receiving a roomname
-//
-//? int string
-//[header][length][room_name]
-void leaveRoom(Buffer &myBuffer)
-{
 
 }

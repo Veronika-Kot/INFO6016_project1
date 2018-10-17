@@ -28,16 +28,16 @@ void handleClients(int index)
 	bool run = true;
 	while (run)
 	{
-		std::vector<char> packet(256);
+		std::vector<char> packet(512);
 		if ((packLength = recv(Clients[index].Connection, &packet[0], packet.size(), NULL)) < 1) {
 			closesocket(Clients[index].Connection);
-			WSACleanup();
+			//WSACleanup();
 			run = false;
 		}
 		else
 		{
 			MessageProtocol* messageProtocol = new MessageProtocol();
-			messageProtocol->createBuffer(256);
+			messageProtocol->createBuffer(512);
 
 			messageProtocol->buffer->mBuffer = packet;
 			messageProtocol->readHeader(*messageProtocol->buffer);
@@ -49,8 +49,8 @@ void handleClients(int index)
 				std::string greet = "Nice to meet you, " + messageProtocol->messageBody.message + "!";
 				sendMessageToClient(Clients[index].Connection, 0, greet);
 
-				std::string setGroup = "\nWhich group would you like to join? Send me a number!\n"
-				"1 - Movies, 2 - Games, 3 - Sport (send 'leaveRoom' to exit)"; //rooms will stored seperatly in the feature
+				std::string setGroup = "\nWhich room would you like to join? Send me a number!\n"
+					"1-Movies, 2-Games, 3-Sport (to leave room send leaveRoom)"; //rooms will be stored seperatly in the feature
 				sendMessageToClient(Clients[index].Connection, 2, setGroup);
 
 				continue;
@@ -62,8 +62,8 @@ void handleClients(int index)
 				sendMessageToAllInGroup(Clients[index].room, 1, message);
 				Clients[index].room = "";
 
-				std::string setGroup = "\nWhich group would you like to join? Send me a number!\n"
-					"1 - Movies, 2 - Games, 3 - Sport ( send'leaveRoom' to exit)"; //rooms will be stored seperatly in the feature
+				std::string setGroup = "\nWhich room would you like to join? Send me a number!\n"
+					"1-Movies, 2-Games, 3-Sport (to leave room send leaveRoom)"; //rooms will be stored seperatly in the feature
 				sendMessageToClient(Clients[index].Connection, 2, setGroup);
 
 				continue;
@@ -105,8 +105,8 @@ void handleClients(int index)
 			if (messageProtocol->messageHeader.command_id == 1)
 			{
 				messageProtocol->receiveMessage(*messageProtocol->buffer);
-				std::cout << Clients[index].name << ": " << messageProtocol->messageBody.message << std::endl;
-				std::string message = Clients[index].name + ">> " + messageProtocol->messageBody.message;
+				std::cout << messageProtocol->messageBody.name << ": " << messageProtocol->messageBody.message << std::endl;
+				std::string message = messageProtocol->messageBody.name + ">> " + messageProtocol->messageBody.message;
 				sendMessageOthersInGroup(index, Clients[index].room, 1, message);
 			}
 
