@@ -105,11 +105,29 @@ void MessageProtocol::setName(Buffer &myBuffer)
 void MessageProtocol::sendMessage(Buffer &myBuffer, int id)
 {
 	this->messageHeader.command_id = id;
-	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
+	/*this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
 
 	myBuffer.resizeBuffer(this->messageHeader.packet_length);
 	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
 	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.message.length());
+	const  char *temp = this->messageBody.message.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}*/
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.name.length() +
+		sizeof(int) + this->messageBody.message.length();
+
+	myBuffer.resizeBuffer(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.name.length());
+	const  char *tempName = this->messageBody.name.c_str();
+	for (int i = 0; tempName[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(tempName[i]);
+	}
 	myBuffer.WriteInt32LE(this->messageBody.message.length());
 	const  char *temp = this->messageBody.message.c_str();
 	for (int i = 0; temp[i] != '\0'; i++)
@@ -189,4 +207,22 @@ void MessageProtocol::leaveRoom(Buffer &myBuffer)
 		myBuffer.WriteChar8LE(temp[i]);
 	}
 	this->messageBody.roomName = "";
+}
+
+//Join room -- command id = 07
+//? int string
+//[header][length][message]
+void MessageProtocol::logout(Buffer &myBuffer)
+{
+	this->messageHeader.command_id = 07;
+	this->messageHeader.packet_length = sizeof(int) + sizeof(short) + sizeof(int) + this->messageBody.message.length();
+	myBuffer.resizeBuffer(this->messageHeader.packet_length);
+	myBuffer.WriteInt32LE(this->messageHeader.packet_length);
+	myBuffer.WriteShort16LE(this->messageHeader.command_id);
+	myBuffer.WriteInt32LE(this->messageBody.message.length());
+	const  char *temp = this->messageBody.message.c_str();
+	for (int i = 0; temp[i] != '\0'; i++)
+	{
+		myBuffer.WriteChar8LE(temp[i]);
+	}
 }

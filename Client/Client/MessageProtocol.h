@@ -33,6 +33,7 @@ public:
 	void joinRoom(Buffer &myBuffer);
 	void leaveRoom(Buffer &myBuffer);
 	void createBuffer(size_t index);
+	void logout(Buffer &myBuffer);
 	Header messageHeader;
 	Body messageBody;
 	Buffer* buffer;

@@ -1,0 +1,53 @@
+syntax = "proto2";
+
+message CreateAccountWeb {
+  required string email = 1;
+  required string plaintextPassword = 2;
+}
+
+message AuthenticateWeb {
+   required string email = 1;
+   required string plaintextPassword = 2;
+
+}
+
+message CreateAccountWebSuccess {
+  required int64 userId = 1;
+
+}
+
+message CreateAccountWebFailure {
+  required int64 reason = 1;
+
+}
+
+message AuthenticateWebSuccess {
+   required int64 userId = 1;
+   required string creationDate = 2;
+
+}
+
+message AuthenticateWebFailure {
+   required int64 reason = 1;
+ 
+}
+
+message ServerMessageWrapper{
+	required int64 messageID = 1;
+    oneof msg {
+        CreateAccountWebSuccess m1 = 2;
+        CreateAccountWebFailure m2 = 3;
+		AuthenticateWebSuccess m3 = 4;
+        AuthenticateWebFailure m4 = 5;
+    }  
+	required int64 clientIndex = 6;
+}
+
+message ClientMessageWrapper{
+	required int64 messageID = 1;
+    oneof msg {
+        CreateAccountWeb m1 = 2;
+        AuthenticateWeb m2 = 3;
+    }  
+	required int64 clientIndex = 6;
+}

@@ -1,0 +1,146 @@
+﻿  chat.pb.cc
+  DBconnector.cpp
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\sqlstring.h(39): warning C4251: 'sql::SQLString::realStr': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'sql::SQLString'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\exception.h(61): warning C4251: 'sql::SQLException::sql_state': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'sql::SQLException'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\exception.h(145): warning C4251: 'sql::SQLUnsupportedOptionException::option': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sql::SQLUnsupportedOptionException'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+  Unknown compiler version - please run the configure tests and report the results
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(175): warning C4251: 'sql::mysql::MySQL_Connection::proxy': class 'boost::shared_ptr<sql::mysql::NativeAPI::NativeConnectionWrapper>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(175): note: see declaration of 'boost::shared_ptr<sql::mysql::NativeAPI::NativeConnectionWrapper>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(179): warning C4251: 'sql::mysql::MySQL_Connection::service': class 'boost::scoped_ptr<sql::mysql::MySQL_Statement>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(179): note: see declaration of 'boost::scoped_ptr<sql::mysql::MySQL_Statement>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(181): warning C4251: 'sql::mysql::MySQL_Connection::intern': class 'boost::scoped_ptr<sql::mysql::MySQL_ConnectionData>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(181): note: see declaration of 'boost::scoped_ptr<sql::mysql::MySQL_ConnectionData>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_driver.h(52): warning C4251: 'sql::mysql::MySQL_Driver::proxy': class 'boost::scoped_ptr<sql::mysql::NativeAPI::NativeDriverWrapper>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Driver'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_driver.h(52): note: see declaration of 'boost::scoped_ptr<sql::mysql::NativeAPI::NativeDriverWrapper>'
+  main.cpp
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\sqlstring.h(39): warning C4251: 'sql::SQLString::realStr': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'sql::SQLString'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\exception.h(61): warning C4251: 'sql::SQLException::sql_state': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'sql::SQLException'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\cppconn\exception.h(145): warning C4251: 'sql::SQLUnsupportedOptionException::option': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sql::SQLUnsupportedOptionException'
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+  Unknown compiler version - please run the configure tests and report the results
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(175): warning C4251: 'sql::mysql::MySQL_Connection::proxy': class 'boost::shared_ptr<sql::mysql::NativeAPI::NativeConnectionWrapper>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(175): note: see declaration of 'boost::shared_ptr<sql::mysql::NativeAPI::NativeConnectionWrapper>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(179): warning C4251: 'sql::mysql::MySQL_Connection::service': class 'boost::scoped_ptr<sql::mysql::MySQL_Statement>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(179): note: see declaration of 'boost::scoped_ptr<sql::mysql::MySQL_Statement>'
+c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(181): warning C4251: 'sql::mysql::MySQL_Connection::intern': class 'boost::scoped_ptr<sql::mysql::MySQL_ConnectionData>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+  c:\users\veronika\desktop\git\network\project1\info6016_project1\protobufs\dev\include\mysql_connection.h(181): note: see declaration of 'boost::scoped_ptr<sql::mysql::MySQL_ConnectionData>'
+  Generating Code...
+libprotobufd.lib(common.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(common.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(coded_stream.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(coded_stream.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(arena.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(arena.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(message_lite.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(message_lite.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(wire_format_lite.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(wire_format_lite.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(generated_message_util.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(generated_message_util.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(unknown_field_set.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(unknown_field_set.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(descriptor.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(descriptor.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(message.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(message.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(generated_message_reflection.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(generated_message_reflection.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(reflection_ops.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(reflection_ops.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(wire_format.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(wire_format.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(status.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(status.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(int128.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(int128.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream_impl_lite.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream_impl_lite.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(structurally_valid.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(structurally_valid.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(stringprintf.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(stringprintf.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(extension_set.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(extension_set.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(stringpiece.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(stringpiece.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(strutil.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(strutil.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(repeated_field.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(repeated_field.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(descriptor.pb.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(descriptor.pb.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(strtod.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(strtod.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(tokenizer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(tokenizer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(descriptor_database.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(descriptor_database.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(dynamic_message.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(dynamic_message.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(text_format.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(text_format.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(substitute.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(substitute.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(map_field.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(map_field.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream_impl.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(zero_copy_stream_impl.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(extension_set_heavy.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(extension_set_heavy.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(implicit_weak_message.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(implicit_weak_message.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(any.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(any.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+libprotobufd.lib(io_win32.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in chat.pb.obj
+libprotobufd.lib(io_win32.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_StaticDebug' doesn't match value 'MT_StaticRelease' in chat.pb.obj
+LINK : warning LNK4098: defaultlib 'LIBCMTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+libprotobufd.lib(common.obj) : error LNK2019: unresolved external symbol __free_dbg referenced in function "private: void __thiscall std::_Yarn<char>::_Tidy(void)" (?_Tidy@?$_Yarn@D@std@@AAEXXZ)
+libprotobufd.lib(int128.obj) : error LNK2001: unresolved external symbol __free_dbg
+libprotobufd.lib(zero_copy_stream_impl.obj) : error LNK2001: unresolved external symbol __free_dbg
+libprotobufd.lib(io_win32.obj) : error LNK2001: unresolved external symbol __free_dbg
+libprotobufd.lib(common.obj) : error LNK2019: unresolved external symbol __malloc_dbg referenced in function "public: static void * __cdecl std::_Crt_new_delete::operator new(unsigned int,struct std::nothrow_t const &)" (??2_Crt_new_delete@std@@SAPAXIABUnothrow_t@1@@Z)
+libprotobufd.lib(int128.obj) : error LNK2001: unresolved external symbol __malloc_dbg
+libprotobufd.lib(zero_copy_stream_impl.obj) : error LNK2001: unresolved external symbol __malloc_dbg
+libprotobufd.lib(io_win32.obj) : error LNK2001: unresolved external symbol __malloc_dbg
+libprotobufd.lib(io_win32.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(zero_copy_stream_impl.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(extension_set_heavy.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(implicit_weak_message.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(any.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(dynamic_message.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(text_format.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(substitute.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(map_field.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(descriptor.pb.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(strtod.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(tokenizer.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(descriptor_database.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(extension_set.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(stringpiece.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(strutil.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(repeated_field.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(status.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(int128.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(zero_copy_stream_impl_lite.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(stringprintf.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(message.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(generated_message_reflection.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(reflection_ops.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(wire_format.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(wire_format_lite.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(generated_message_util.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(unknown_field_set.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(descriptor.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(common.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(coded_stream.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(arena.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(message_lite.obj) : error LNK2001: unresolved external symbol __CrtDbgReport
+libprotobufd.lib(int128.obj) : error LNK2019: unresolved external symbol __calloc_dbg referenced in function "char * __cdecl std::_Maklocstr<char>(char const *,char *,struct _Cvtvec const &)" (??$_Maklocstr@D@std@@YAPADPBDPADABU_Cvtvec@@@Z)
+C:\Users\Veronika\Desktop\git\NETWORK\PROJECT1\INFO6016_project1\ProtobufS\Debug\ProtobufS.exe : fatal error LNK1120: 4 unresolved externals

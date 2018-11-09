@@ -88,6 +88,10 @@ int main()
 		std::getline(std::cin, input);
 		messageSendProtocol->createBuffer(8);
 		messageSendProtocol->messageHeader.command_id = commandID;
+		if (input.length() == 0)
+		{
+			continue;
+		}
 		if (input=="leaveRoom")
 		{
 			if (messageSendProtocol->messageBody.roomName != "")
@@ -98,6 +102,16 @@ int main()
 				continue;
 			}
 		}
+
+		if (input == "exit")
+		{
+			messageSendProtocol->messageBody.message = input.c_str();
+			messageSendProtocol->logout(*messageSendProtocol->buffer);
+			std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
+			send(Connection, &packet[0], packet.size(), 0);
+			continue;
+		}
+
 		if (commandID == 0)
 		{
 			messageSendProtocol->messageBody.name = input.c_str();
@@ -114,7 +128,24 @@ int main()
 			messageSendProtocol->messageBody.roomName = input.c_str();
 			messageSendProtocol->joinRoom(*messageSendProtocol->buffer);
 		}
+		else if (commandID == 4)
+		{
+			messageSendProtocol->messageBody.message = input.c_str();
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer, 4);
+		}
 
+		else if (commandID == 5)
+		{
+			messageSendProtocol->messageBody.message = input.c_str();
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer, 5);
+		}
+
+		else if (commandID == 6)
+		{
+			messageSendProtocol->messageBody.message = input.c_str();
+			messageSendProtocol->sendMessage(*messageSendProtocol->buffer, 6);
+		}
+	
 		std::vector<char> packet = messageSendProtocol->buffer->mBuffer;
 		send(Connection, &packet[0], packet.size(), 0);
 		
